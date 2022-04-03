@@ -1,0 +1,13 @@
+.carousel{
+  width: 100vw;
+  margin: auto;
+}
+body{
+  background-color: red;
+}
+.noBooks{
+  padding: 3rem;
+  font-family: display;
+  font-size: 45px;
+  text-align: center;
+}

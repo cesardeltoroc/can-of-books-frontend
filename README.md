@@ -35,3 +35,13 @@ Clone this repo to your own account with the green "Use this template" button. T
 ## Credit and Collaborations
   Hugo
   Cesar
+
+Name of feature: LAB11
+
+Estimate of time needed to complete: 3HR
+
+Start time: 3HR
+
+Finish time: 6PM
+
+Actual time needed to complete: 3HR

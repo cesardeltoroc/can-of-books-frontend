@@ -15,7 +15,7 @@ class BestBooks extends React.Component {
     this.getBooks();
   }
   getBooks = async () => {
-   let url = `${process.env.REACT_APP_SERVER}/books`
+   let url = `${process.env.REACT_APP_HEROKU}/books`
    const response = await axios.get(url);
    this.setState({books: response.data});
  }

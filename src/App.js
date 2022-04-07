@@ -4,6 +4,7 @@ import Footer from './Footer';
 import BestBooks from './BestBooks';
 import AddBook from './AddBook';
 import About from './About';
+import Button from 'react-bootstrap/button'
 import './app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -21,6 +22,9 @@ class App extends React.Component {
     this.state = {
       user: null,
       books: [],
+      modalShown: false,
+      title: '',
+      description: '',
     }
   }
 
@@ -46,8 +50,16 @@ class App extends React.Component {
     this.setState({books: response.data});
   }
 
-  createBook = async (title, description) => {
-    let response
+  createBook = async () => {
+    const {
+      title,
+      description,
+    } = this.state
+    if(!title || !description) {
+      console.log('failed sanity: ', title, description)
+      return
+    }
+    let response;
     try {
       response = await axios.post(`${process.env.REACT_APP_HEROKU}/books`, {title: title, description: description})
     } catch(error) {
@@ -58,6 +70,38 @@ class App extends React.Component {
       })
     }
   }
+  
+  handleDeleteBook = async id => {
+    try {
+      let url = `${process.env.REACT_APP_HEROKU}/books/${id}`;
+      const response = await axios.delete(url);
+      console.log(response.data);
+      const newBooks = [...this.state.books]
+      this.setState({
+        books: newBooks.filter(book => book._id !== id)
+      })
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
+  updateFormState = (event, value) => {
+    const newState = {};
+    newState[value] = event.target.value;
+    this.setState(newState);
+  }
+
+  openModal = () => {
+    this.setState({
+      modalShown: true,
+    })
+  }
+  
+  closeModal = () => {
+    this.setState({
+      modalShown: false,
+    })
+  }
 
   
   render() {
@@ -67,9 +111,10 @@ class App extends React.Component {
           <Header user={this.state.user} onLogout={this.logoutHandler} />
           <Switch>
             <Route exact path="/">
-              <AddBook createBook={this.createBook}/>
               {/* PLACEHOLDER: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
-              <BestBooks books={this.state.books} />
+              <BestBooks books={this.state.books} handleDeleteBook={this.handleDeleteBook}/>
+              <Button variant="primary" onClick={() => this.openModal()} >Add a Book</Button>
+              <AddBook show={this.state.modalShown} createBook={this.createBook} closeModal={this.closeModal} updateFormState={this.updateFormState}/>
             </Route>
             <Route exact path='/about'>
               <About />

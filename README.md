@@ -49,8 +49,8 @@ Name of feature: LAB12
 
 Estimate of time needed to complete: 2hr
 
-Start time: 9pm
+Start time: 7pm
 
-Finish time: 
+Finish time: 8:30pm
 
-Actual time needed to complete: 
+Actual time needed to complete:  2hr

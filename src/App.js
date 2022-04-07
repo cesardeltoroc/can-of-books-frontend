@@ -4,9 +4,9 @@ import Footer from './Footer';
 import BestBooks from './BestBooks';
 import AddBook from './AddBook';
 import About from './About';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/button'
 import './app.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Switch,

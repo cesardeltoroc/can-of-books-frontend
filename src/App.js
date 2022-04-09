@@ -22,7 +22,7 @@ class App extends React.Component {
     this.state = {
       user: null,
       books: [],
-      modalShown: false,
+      addModalShown: false,
       title: '',
       description: '',
     }
@@ -85,21 +85,46 @@ class App extends React.Component {
     }
   }
 
-  updateFormState = (event, value) => {
-    const newState = {};
-    newState[value] = event.target.value;
-    this.setState(newState);
+  handleUpdateBook = async (id, updatedBook) => {
+    try{
+      let url = `${process.env.REACT_APP_HEROKU}/books/${id}`;
+      console.log(await axios.put(url, updatedBook));
+      const newBooks = [...this.state.books].map(book => {
+        if(book._id !== id) {
+          //we don't want to modify these
+          return book
+        }
+        for(let key in updatedBook) {
+          book[key] = updatedBook[key];
+        }
+        return book;
+      });
+      this.setState({
+        books: newBooks,
+      })
+    }catch(error){
+      console.error(error);
+    }
   }
 
-  openModal = () => {
+  updateFormState = (event, value) => {
+    const newState = {};
+    console.trace('oh boy')
+    console.log(value, this.state[value])
+    newState[value] = event.target.value;
+    this.setState(newState);
+    console.log(this.state[value])
+  }
+
+  openAddModal = () => {
     this.setState({
-      modalShown: true,
+      addModalShown: true,
     })
   }
   
   closeModal = () => {
     this.setState({
-      modalShown: false,
+      addModalShown: false,
     })
   }
 
@@ -112,9 +137,21 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/">
               {/* PLACEHOLDER: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
-              <BestBooks books={this.state.books} handleDeleteBook={this.handleDeleteBook}/>
-              <Button variant="primary" onClick={() => this.openModal()} >Add a Book</Button>
-              <AddBook show={this.state.modalShown} createBook={this.createBook} closeModal={this.closeModal} updateFormState={this.updateFormState}/>
+              <BestBooks
+                books={this.state.books}
+                // db operations
+                handleUpdateBook={this.handleUpdateBook}
+                handleDeleteBook={this.handleDeleteBook}
+                // book form values and updating
+                show={this.state.updateModalShown}
+                closeModal={this.closeModal}
+                updateFormState={this.updateFormState}
+                title={this.state.title}
+                description={this.state.description} />
+              <AddBook show={this.state.addModalShown} createBook={this.createBook} closeModal={this.closeModal} updateFormState={this.updateFormState}/>
+              <div className='add-book'>
+                <Button variant="primary" onClick={this.openAddModal}>Add a Book</Button>
+              </div>
             </Route>
             <Route exact path='/about'>
               <About />

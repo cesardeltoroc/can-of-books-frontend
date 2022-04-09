@@ -17,9 +17,9 @@ class AddBook extends Component {
     } = this.props
     return (
       <Modal show={show} onHide={() => closeModal()}>
-        <Form onSubmit={e => this.createBook(e)} >
+        <Form onSubmit={this.createBook} >
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Insert A New Book</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -27,17 +27,13 @@ class AddBook extends Component {
             <Form.Control onChange={event => updateFormState(event, 'title')} type="text" placeholder="Enter book name" />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Book Description</Form.Label>
+            <Form.Label>Add a description of the book</Form.Label>
             <Form.Control onChange={event => updateFormState(event, 'description')} type="text" placeholder="Enter a Description of this book." />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => closeModal()}>
-            Close
-          </Button>
-          <Button variant="primary" type="submit">
-            CREATE BOOK
-            </Button>
+          <Button variant="secondary" onClick={() => closeModal()}>Close</Button>
+          <Button variant="primary" type="submit">CREATE BOOK</Button>
         </Modal.Footer>
         </Form>
       </Modal>

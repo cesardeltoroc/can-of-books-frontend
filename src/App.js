@@ -81,13 +81,14 @@ class App extends React.Component {
         books: newBooks.filter(book => book._id !== id)
       })
     } catch(error) {
-      console.error(error);
+      console.log(error.message);
     }
   }
 
   handleUpdateBook = async (id, updatedBook) => {
     try{
       let url = `${process.env.REACT_APP_HEROKU}/books/${id}`;
+      console.log(id);
       console.log(await axios.put(url, updatedBook));
       const newBooks = [...this.state.books].map(book => {
         if(book._id !== id) {
@@ -109,7 +110,7 @@ class App extends React.Component {
 
   updateFormState = (event, value) => {
     const newState = {};
-    console.trace('oh boy')
+    // console.trace('oh boy')
     console.log(value, this.state[value])
     newState[value] = event.target.value;
     this.setState(newState);

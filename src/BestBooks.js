@@ -35,6 +35,10 @@ class BestBooks extends React.Component {
       updateModalShown: false,
     })
   }
+  deleteBook = (id) => {
+    this.setState({carouselIndex: this.state.carouselIndex -1})
+    this.props.handleDeleteBook(id);
+  }
 
   render() {
     if(!this.props.books.length){
@@ -64,21 +68,23 @@ class BestBooks extends React.Component {
                 </Button>
                 <Button
                   variant="danger"
-                  onClick={() => this.props.handleDeleteBook(book._id)}>
+                  onClick={() => this.deleteBook(book._id)}>
                   <FontAwesomeIcon icon={faXmark}/>
                 </Button>
               </Carousel.Caption>
             </Carousel.Item>
           ))}
         </Carousel>
-        <UpdateBook
-          id={selectedBook}
-          title={this.state.title}
-          description={this.state.description}
-          show={this.state.updateModalShown}
-          closeModal={this.closeModal}
-          handleUpdateBook={this.props.handleUpdateBook}
-          updateFormState={this.props.updateFormState} />
+        {selectedBook && (
+          <UpdateBook
+            id={selectedBook._id}
+            title={this.state.title}
+            description={this.state.description}
+            show={this.state.updateModalShown}
+            closeModal={this.closeModal}
+            handleUpdateBook={this.props.handleUpdateBook}
+            updateFormState={this.props.updateFormState} />
+        )}
       </>
     );
   }

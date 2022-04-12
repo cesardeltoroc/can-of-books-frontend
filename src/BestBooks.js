@@ -72,7 +72,7 @@ class BestBooks extends React.Component {
           ))}
         </Carousel>
         <UpdateBook
-          id={selectedBook._id}
+          id={selectedBook}
           title={this.state.title}
           description={this.state.description}
           show={this.state.updateModalShown}

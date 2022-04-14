@@ -1,5 +1,6 @@
 import React from 'react';
 import UpdateBook from './UpdateBook';
+// import axios from './axios'
 import { Carousel, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -48,6 +49,7 @@ class BestBooks extends React.Component {
     const selectedBook = this.props.books[this.state.carouselIndex];
     return (
       <>
+        {typeof this.props.books}
         <Carousel
           interval={null}
           activeIndex={this.state.carouselIndex}

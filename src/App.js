@@ -48,10 +48,21 @@ class App extends React.Component {
   }
 
   getBooks = async () => {
-    let url = `${process.env.REACT_APP_HEROKU}/books`
-    const response = await axios.get(url);
-    this.setState({books: response.data});
-    // console.log(response.data);
+    if (this.props.auth0.isAuthenticated) {
+      const res = await this.props.auth0.getIdTokenClaims();
+      const jwt = res.__raw;
+      // This gives use token for back end.
+      console.log('token: ', jwt);
+      const config = {
+        headers: { "Authorization": `Bearer ${jwt}` },
+        method: 'get',
+        baseURL: process.env.REACT_APP_HEROKU,
+        url: '/books'
+      }
+
+      const booksResponse = await axios(config);
+      this.setState({ books: booksResponse.data });
+    }
   }
 
   createBook = async () => {

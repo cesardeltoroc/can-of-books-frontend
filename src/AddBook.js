@@ -24,11 +24,15 @@ class AddBook extends Component {
         <Modal.Body>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Create A New Book?</Form.Label>
-            <Form.Control onChange={event => updateFormState(event, 'title')} type="text" placeholder="Enter book name" />
+            <Form.Control required onChange={event => updateFormState(event, 'title')} type="text" placeholder="Enter book name" />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Add a description of the book</Form.Label>
-            <Form.Control onChange={event => updateFormState(event, 'description')} type="text" placeholder="Enter a Description of this book." />
+            <Form.Control required onChange={event => updateFormState(event, 'description')} type="text" placeholder="Enter a Description of this book." />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Image Link:</Form.Label>
+            <Form.Control required onChange={event => updateFormState(event, 'image')} type="text" placeholder="Enter the link to the Book's cover page." />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

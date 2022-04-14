@@ -4,6 +4,7 @@ import Footer from './Footer';
 import BestBooks from './BestBooks';
 import AddBook from './AddBook';
 import About from './About';
+import Profile from './Profile'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import './app.css';
@@ -12,6 +13,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import { withAuth0 } from '@auth0/auth0-react';
 const axios = require('axios');
 
 
@@ -25,6 +27,7 @@ class App extends React.Component {
       addModalShown: false,
       title: '',
       description: '',
+      image:'',
     }
   }
 
@@ -48,12 +51,14 @@ class App extends React.Component {
     let url = `${process.env.REACT_APP_HEROKU}/books`
     const response = await axios.get(url);
     this.setState({books: response.data});
+    // console.log(response.data);
   }
 
   createBook = async () => {
     const {
       title,
       description,
+      image,
     } = this.state
     if(!title || !description) {
       console.log('failed sanity: ', title, description)
@@ -61,7 +66,7 @@ class App extends React.Component {
     }
     let response;
     try {
-      response = await axios.post(`${process.env.REACT_APP_HEROKU}/books`, {title: title, description: description})
+      response = await axios.post(`${process.env.REACT_APP_HEROKU}/books`, {title: title, description: description, image: image})
     } catch(error) {
       console.log(error.message);
     } finally {
@@ -157,6 +162,9 @@ class App extends React.Component {
             <Route exact path='/about'>
               <About />
             </Route>
+            <Route exact path='/profile'>
+              <Profile />
+            </Route>
           </Switch>
           <Footer />
         </Router>
@@ -165,4 +173,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withAuth0(App);

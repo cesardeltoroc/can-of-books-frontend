@@ -3,7 +3,6 @@ import UpdateBook from './UpdateBook';
 import { Carousel, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import books from './images/books-back.jpeg'
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -56,7 +55,7 @@ class BestBooks extends React.Component {
           {this.props.books.map(book => (
             <Carousel.Item key={book._id}>
               <img
-                src={books}
+                src={book.image}
                 alt="First slide"
                 className="carousel-image"
               />

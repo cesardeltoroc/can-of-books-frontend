@@ -11,6 +11,7 @@ class Content extends React.Component {
   }
 
   async componentDidMount() {
+    console.log(this.props.auth0)
     if (this.props.auth0.isAuthenticated) {
       const res = await this.props.auth0.getIdTokenClaims();
       const jwt = res.__raw;

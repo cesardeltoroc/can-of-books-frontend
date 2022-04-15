@@ -16,6 +16,15 @@ import {
 import { withAuth0 } from '@auth0/auth0-react';
 const axios = require('axios');
 
+// api call methods, and some comment reminder
+// get something back
+const GET = 'get'
+// update something
+const PUT = 'put'
+// add something new
+const POST = 'post'
+// remove something old
+const DELETE = 'delete'
 
 class App extends React.Component {
 
@@ -47,11 +56,38 @@ class App extends React.Component {
     this.getBooks();
   }
 
+  apiCall = async (method, url, body) => {
+    console.log(this.props.auth0)
+    if (!this.props.auth0.isAuthenticated) {
+      console.log('you have no right')
+      return // you have no right!
+    }
+    const res = await this.props.auth0.getIdTokenClaims();
+    const jwt = res.__raw;
+  
+    const call = {
+      headers: { "Authorization": `Bearer ${jwt}` },
+      method: method,
+      baseURL: process.env.REACT_APP_HEROKU,
+      url: url
+    }
+
+    let result
+    if(body) {
+      result = await axios(call, body)
+    } else {
+      result = await axios(call)
+    }
+    console.log('hi')
+    return result
+  }
+
   getBooks = async () => {
-    let url = `${process.env.REACT_APP_HEROKU}/books`
-    const response = await axios.get(url);
-    this.setState({books: response.data});
-    // console.log(response.data);
+    const response = await this.apiCall(GET, '/books')
+    if(!response) {
+      return
+    }
+    this.setState({ books: response.data });
   }
 
   createBook = async () => {
@@ -66,20 +102,21 @@ class App extends React.Component {
     }
     let response;
     try {
-      response = await axios.post(`${process.env.REACT_APP_HEROKU}/books`, {title: title, description: description, image: image})
+      response = this.apiCall(POST, '/books', {title: title, description: description, image: image})
     } catch(error) {
       console.log(error.message);
     } finally {
-      this.setState({
-        books: [...this.state.books, response.data]
-      })
+      if(response) {
+        this.setState({
+          books: [...this.state.books, response.data]
+        })
+      }
     }
   }
   
   handleDeleteBook = async id => {
     try {
-      let url = `${process.env.REACT_APP_HEROKU}/books/${id}`;
-      const response = await axios.delete(url);
+      const response = this.apiCall(DELETE, `/books/${id}`)
       console.log(response.data);
       const newBooks = [...this.state.books]
       this.setState({
@@ -92,9 +129,7 @@ class App extends React.Component {
 
   handleUpdateBook = async (id, updatedBook) => {
     try{
-      let url = `${process.env.REACT_APP_HEROKU}/books/${id}`;
-      console.log(id);
-      console.log(await axios.put(url, updatedBook));
+      this.apiCall(PUT, `/books/${id}`, updatedBook)
       const newBooks = [...this.state.books].map(book => {
         if(book._id !== id) {
           //we don't want to modify these

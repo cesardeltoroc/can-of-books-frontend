@@ -3,6 +3,7 @@ import UpdateBook from './UpdateBook';
 import { Carousel, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import Userbooks from './Userbooks';
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -40,9 +41,12 @@ class BestBooks extends React.Component {
   }
 
   render() {
-    if(!this.props.books.length){
+    if(!this.props.books?.length){
       return (
-        <div className='noBooks'>NO BOOKS!</div>
+        <>
+          <Userbooks />
+          <div className='noBooks'>NO BOOKS!</div>
+        </>
       )
     }
     const selectedBook = this.props.books[this.state.carouselIndex];

@@ -64,3 +64,11 @@ Start time: 1:15pm
 Finish time: 4:20pm
 
 Actual time needed to complete:  3hr
+
+Name of feature: LAB15
+
+Estimate of time needed to complete: 2hr
+
+Start time to Finish time: 8:30pm to 9:30pm wednesday, 9pm to 9:30pm thursday, 5pm to 6:40pm friday
+
+Actual time needed to complete:  3hr

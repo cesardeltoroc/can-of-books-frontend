@@ -1,6 +1,7 @@
 
 body {
   background: linear-gradient(-45deg, #f012b8, #048692);
+  height: 100vh;
 }
 
 .noBooks{
@@ -36,14 +37,8 @@ body {
 }
 
 img.carousel-image {
-  /* width: 30%;
-  height: 30%;
-  margin-left: auto, */
+  width: 100%;
   display: block;
-  width: 40%;
-  height: 40%;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .separator {
